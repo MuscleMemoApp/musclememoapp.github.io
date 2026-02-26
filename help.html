@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ヘルプ - MuscleMemo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #FAFAF9;
+      --surface: #FFFFFF;
+      --text: #1C1C1E;
+      --text-secondary: #6B7280;
+      --accent: #3B82F6;
+      --accent-light: #EFF6FF;
+      --border: #E5E7EB;
+      --radius: 16px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0F0F0F;
+        --surface: #1C1C1E;
+        --text: #F5F5F4;
+        --text-secondary: #9CA3AF;
+        --accent: #60A5FA;
+        --accent-light: #1E293B;
+        --border: #2D2D2F;
+      }
+    }
+
+    body {
+      font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .header-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent), #6366F1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: white;
+      font-weight: 700;
+    }
+
+    .header-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .header-nav {
+      margin-left: auto;
+      display: flex;
+      gap: 16px;
+    }
+
+    .header-nav a {
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .header-nav a:hover { color: var(--accent); }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      margin-top: 40px;
+    }
+
+    .section-label:first-of-type { margin-top: 0; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .faq-toggle {
+      display: none;
+    }
+
+    .faq-label {
+      display: flex;
+      align-items: center;
+      padding: 20px 24px;
+      cursor: pointer;
+      gap: 12px;
+      user-select: none;
+      transition: background 0.2s;
+    }
+
+    .faq-label:hover {
+      background: var(--accent-light);
+    }
+
+    .faq-label .q {
+      font-size: 15px;
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .faq-label .arrow {
+      font-size: 12px;
+      color: var(--text-secondary);
+      transition: transform 0.3s;
+    }
+
+    .faq-toggle:checked + .faq-label .arrow {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-toggle:checked ~ .faq-answer {
+      max-height: 600px;
+    }
+
+    .faq-answer-inner {
+      padding: 0 24px 20px;
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .faq-answer-inner p {
+      margin-bottom: 8px;
+    }
+
+    .faq-answer-inner p:last-child { margin-bottom: 0; }
+
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 12px 0;
+    }
+
+    .step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .step-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .formula-box {
+      background: var(--accent-light);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 12px 0;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 14px;
+      color: var(--text);
+      text-align: center;
+    }
+
+
+    footer {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border);
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 24px; }
+      .faq-label { padding: 16px 20px; }
+      .faq-answer-inner { padding: 0 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="header-icon">M</div>
+    <span class="header-title">MuscleMemo</span>
+    <nav class="header-nav">
+      <a href="./help.html" style="color: var(--accent);">ヘルプ</a>
+      <a href="./terms.html">利用規約</a>
+      <a href="./privacy-policy.html">プライバシー</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>ヘルプ</h1>
+  <p class="subtitle">MuscleMemo の使い方ガイド</p>
+
+  <!-- 基本操作 -->
+  <div class="section-label">🏋️ 基本操作</div>
+
+  <div class="card">
+    <input type="checkbox" id="faq1" class="faq-toggle">
+    <label for="faq1" class="faq-label">
+      <span class="q">トレーニングを記録するには？</span>
+      <span class="arrow">▼</span>
+    </label>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <div class="step-list">
+          <div class="step"><span class="step-num">1</span><span class="step-text">ホーム画面右上の <strong>＋</strong> ボタンをタップ</span></div>
+          <div class="step"><span class="step-num">2</span><span class="step-text">種目を選択（前回の重量・回数が自動入力されます）</span></div>
+          <div class="step"><span class="step-num">3</span><span class="step-text">重量と回数を入力して <strong>保存</strong></span></div>
+        </div>
+        <p>保存後、「同じ種目を続ける」「別の種目を選ぶ」「完了」から選べます。インターバル中にサクッと記録するのがおすすめです。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <input type="checkbox" id="faq2" class="faq-toggle">
+    <label for="faq2" class="faq-label">
+      <span class="q">記録を修正するには？</span>
+      <span class="arrow">▼</span>
+    </label>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>「履歴」タブから日付を選び、修正したいセットをタップすると編集画面が表示されます。重量・回数・メモを変更して保存できます。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <input type="checkbox" id="faq3" class="faq-toggle">
+    <label for="faq3" class="faq-label">
+      <span class="q">種目を追加・削除するには？</span>
+      <span class="arrow">▼</span>
+    </label>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p><strong>追加：</strong>「設定」タブ右上の <strong>＋</strong> ボタンから、種目名とカテゴリ（胸・背中・脚・肩・腕・その他）を入力して登録できます。</p>
+        <p><strong>削除：</strong>種目を左スワイプすると削除ボタンが表示されます。削除すると関連するすべての記録も一緒に削除されますのでご注意ください。</p>
+        <p><strong>お気に入り：</strong>種目を右スワイプするとお気に入り登録できます。お気に入りの種目はリストの上部に表示されます。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 機能について -->
+  <div class="section-label">📊 機能について</div>
+
+  <div class="card">
+    <input type="checkbox" id="faq4" class="faq-toggle">
+    <label for="faq4" class="faq-label">
+      <span class="q">1RM推定値とは？</span>
+      <span class="arrow">▼</span>
+    </label>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>1RM（One Rep Max）は、1回だけ持ち上げられる最大重量の推定値です。本アプリではスポーツ科学で広く使われている <strong>Epley式</strong> を採用しています。</p>
+        <div class="formula-box">1RM = 重量 × (1 + 回数 ÷ 30)</div>
+        <p>2〜6回の範囲で精度が高く、回数が増えるほど推定の誤差が大きくなります。あくまで目安としてご活用ください。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <input type="checkbox" id="faq5" class="faq-toggle">
+    <label for="faq5" class="faq-label">
+      <span class="q">ストリーク（連続記録日数）の仕組みは？</span>
+      <span class="arrow">▼</span>
+    </label>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>今日から遡って、連続してトレーニングを記録した日数を表示します。1日でもトレーニングの記録がない日があるとリセットされます。</p>
+        <p>ホーム画面に🔥アイコンとともに表示されるので、モチベーション維持にお役立てください。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <input type="checkbox" id="faq6" class="faq-toggle">
+    <label for="faq6" class="faq-label">
+      <span class="q">統計情報にはどんな項目がありますか？</span>
+      <span class="arrow">▼</span>
+    </label>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>ホーム画面に以下の統計が表示されます：</p>
+        <div class="step-list">
+          <div class="step"><span class="step-num">📅</span><span class="step-text"><strong>今月のトレーニング日数</strong> — 今月中に記録した日の数</span></div>
+          <div class="step"><span class="step-num">📈</span><span class="step-text"><strong>通算トレーニング日数</strong> — これまでの総トレーニング日数</span></div>
+          <div class="step"><span class="step-num">🏆</span><span class="step-text"><strong>よく使う種目 TOP3</strong> — 記録回数が多い種目</span></div>
+          <div class="step"><span class="step-num">💪</span><span class="step-text"><strong>最大重量 TOP3</strong> — 種目別のパーソナルレコード</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- データについて -->
+  <div class="section-label">💾 データについて</div>
+
+  <div class="card">
+    <input type="checkbox" id="faq7" class="faq-toggle">
+    <label for="faq7" class="faq-label">
+      <span class="q">データはどこに保存されますか？</span>
+      <span class="arrow">▼</span>
+    </label>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>すべてのトレーニング記録はお使いのiPhone本体にのみ保存されます。外部サーバーへの送信やクラウドへのアップロードは一切行いません。</p>
+        <p>なお、広告の表示のためにインターネット接続を使用しますが、お客様のトレーニングデータが外部に送信されることはありません。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <input type="checkbox" id="faq8" class="faq-toggle">
+    <label for="faq8" class="faq-label">
+      <span class="q">アプリを消すとデータは消えますか？</span>
+      <span class="arrow">▼</span>
+    </label>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p><strong>はい、アプリを削除するとすべてのトレーニング記録が完全に削除されます。</strong>復元はできませんのでご注意ください。</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>&copy; 2026 MuscleMemo. All rights reserved.</p>
+  <p style="margin-top: 4px;"><a href="./privacy-policy.html">プライバシーポリシー</a> · <a href="./terms.html">利用規約</a> · <a href="./help.html"
